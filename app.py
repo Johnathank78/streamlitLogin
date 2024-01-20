@@ -23,9 +23,6 @@ with conn as s:
             );
         '''))
 
-# Query and display the data you inserted
-users = conn.query('select * from users')
-
 # Initialize session state for form toggle if it's not already set
 if 'show_signup' not in st.session_state:
     st.session_state.show_signup = True
@@ -133,12 +130,12 @@ def is_valid_email(email):
 
 # Function to check if the email is already registered
 def is_email_registered(email, conn):
-    result = conn.query(f"SELECT * FROM users WHERE email = '{email}'")
+    result = conn.execute(f"SELECT * FROM users WHERE email = '{email}'").fetchone()
     return len(result) > 0
 
 # Function to authenticate the user and fetch user details
 def authenticate_and_fetch_user_details(email, password, conn):
-    user = conn.query(f"SELECT * FROM users WHERE email = '{email}'")
+    user = conn.execute(f"SELECT * FROM users WHERE email = '{email}'").fetchone()
     if len(user) == 0:
         return None  # User not found
     user = user.iloc[0]  # Assuming email is unique and only one record is fetched
