@@ -130,7 +130,7 @@ def is_valid_email(email):
 
 # Function to check if the email is already registered
 def is_email_registered(email, conn):
-    result = conn.execute(text("SELECT * FROM users WHERE email = :email"), email=email).fetchone()
+    result = conn.execute(f"SELECT * FROM users WHERE email = '{email}'").fetchone()
     s.commit()
     return len(result) > 0
 
