@@ -223,7 +223,7 @@ def display_signup_form():
 
         if st.button('Or Sign In', type="primary"):
             st.session_state.show_signup = False
-            st.experimental_rerun()
+            st.rerun()
 
 # Function to display the SignIn form
 def display_signin_form():
@@ -246,13 +246,13 @@ def display_signin_form():
                     elif user_info is not None:
                         st.session_state.is_logged_in = True  # Update login status
                         st.session_state.user_info = user_info  # Store user info in session state
-                        st.experimental_rerun()  # Rerun the app to update the display
+                        st.rerun()  # Rerun the app to update the display
                     else:
                         st.error("Invalid email/password combination.")
 
         if st.button('Or Sign Up', type="primary"):
             st.session_state.show_signup = True
-            st.experimental_rerun()
+            st.rerun()
 
 # Function to display user information and actions
 def display_user_info(user):
@@ -269,7 +269,7 @@ def display_user_info(user):
         with col1:
             if st.button('**Change Password**', key='change_password', type="secondary"):
                 st.session_state.show_change_password = True
-                st.experimental_rerun()
+                st.rerun()
 
         with col2:
             if st.button('Delete Account', key='delete_account', type="primary"):
@@ -277,7 +277,7 @@ def display_user_info(user):
                 st.session_state.show_signup = True
                 st.session_state.is_logged_in = False
                 st.session_state.user_info = False
-                st.experimental_rerun()
+                st.rerun()
 
 def display_change_password_form():
     col1, col2, col3 = st.columns([1,3,1])
