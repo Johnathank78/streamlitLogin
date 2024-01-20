@@ -11,8 +11,8 @@ engine = create_engine("sqlite:///login.db")
 conn = engine.connect()
 
 # Insert some data with conn.session.
-with conn.session as s:
-    with conn.session as s:
+with conn as s:
+    with conn as s:
         s.execute(text('''
             CREATE TABLE IF NOT EXISTS users (
                 uuid TEXT PRIMARY KEY, 
@@ -149,7 +149,7 @@ def authenticate_and_fetch_user_details(email, password, conn):
 # Function to delete a user by UUID
 def delete_user_by_uuid(user_uuid, conn):
     try:
-        with conn.session as s:
+        with conn as s:
             # SQL to delete user
             s.execute(text('''
                 DELETE FROM users WHERE uuid = :uuid;
@@ -167,7 +167,7 @@ def change_user_password(user_uuid, new_password, conn):
         # Hash the new password
         hashed_password = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
 
-        with conn.session as s:
+        with conn as s:
             # SQL to update user's password
             s.execute(text('''
                 UPDATE users SET password = :password WHERE uuid = :uuid;
@@ -208,7 +208,7 @@ def display_signup_form():
                         else:
                             try:
                                 user_uuid = str(uuid.uuid4())  # Generate a UUID
-                                with conn.session as s:
+                                with conn as s:
                                     s.execute(text('''
                                         INSERT INTO users (uuid, name, lastname, email, password) 
                                         VALUES (:uuid, :name, :lastname, :email, :password);
