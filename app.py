@@ -6,9 +6,8 @@ import re
 import pandas
 import uuid
 
-# Create the SQL connection to pets_db as specified in your secrets file.
-db_url = st.secrets["connections.login_db"]["url"]
-engine = create_engine(db_url)
+# Create the SQL connection to pets_db as specified in your secrets file
+engine = create_engine("sqlite:///login.db")
 conn = engine.connect()
 
 # Insert some data with conn.session.
