@@ -12,16 +12,16 @@ conn = engine.connect()
 
 # Insert some data with conn.session.
 with conn as s:
-    with conn as s:
-        s.execute(text('''
-            CREATE TABLE IF NOT EXISTS users (
-                uuid TEXT PRIMARY KEY, 
-                name TEXT, 
-                lastname TEXT, 
-                email TEXT UNIQUE, 
-                password TEXT
-            );
-        '''))
+    s.execute(text('''
+        CREATE TABLE IF NOT EXISTS users (
+            uuid TEXT PRIMARY KEY, 
+            name TEXT, 
+            lastname TEXT, 
+            email TEXT UNIQUE, 
+            password TEXT
+        );
+    '''))
+    s.commit()
 
 # Initialize session state for form toggle if it's not already set
 if 'show_signup' not in st.session_state:
@@ -131,11 +131,13 @@ def is_valid_email(email):
 # Function to check if the email is already registered
 def is_email_registered(email, conn):
     result = conn.execute(f"SELECT * FROM users WHERE email = '{email}'").fetchone()
+    s.commit()
     return len(result) > 0
 
 # Function to authenticate the user and fetch user details
 def authenticate_and_fetch_user_details(email, password, conn):
     user = conn.execute(f"SELECT * FROM users WHERE email = '{email}'").fetchone()
+    s.commit()
     if len(user) == 0:
         return None  # User not found
     user = user.iloc[0]  # Assuming email is unique and only one record is fetched
