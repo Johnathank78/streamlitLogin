@@ -131,13 +131,13 @@ def is_valid_email(email):
 # Function to check if the email is already registered
 def is_email_registered(email, conn):
     result = conn.execute(f"SELECT * FROM users WHERE email = '{email}'").fetchone()
-    s.commit()
+    conn.commit()
     return len(result) > 0
 
 # Function to authenticate the user and fetch user details
 def authenticate_and_fetch_user_details(email, password, conn):
     user = conn.execute(f"SELECT * FROM users WHERE email = '{email}'").fetchone()
-    s.commit()
+    conn.commit()
     if len(user) == 0:
         return None  # User not found
     user = user.iloc[0]  # Assuming email is unique and only one record is fetched
